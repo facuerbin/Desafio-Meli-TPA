@@ -53,3 +53,71 @@ POST localhost:8080/api/v1/mutant/ +
 ]
 }
 => Status: 200
+
+POST localhost:8080/api/v1/mutant/ + 
+{
+"dna": 	[
+"ACCCTA",
+"TAATGC",
+"ACAGTC",
+"AAATGT",
+"TCAGAC",
+"AAAAGT"
+]
+}
+=> Status: 200
+
+POST localhost:8080/api/v1/mutant/ +
+{
+"dna": 	[
+"ACCCTA",
+"TAACGC",
+"ACTGCC",
+"AAATGC",
+"TCAGTT",
+"ACAAGT"
+]
+}
+=> Status: 200
+
+POST localhost:8080/api/v1/mutant/ +
+{
+"dna": 	[
+"ACCCTA",
+"TAACGC",
+"ACTGCC",
+"AAATGC",
+"TCAGTT",
+"ACAAGT"
+]
+}
+=> Status: 200
+
+POST localhost:8080/api/v1/mutant/ +
+{
+"dna": 	[
+"ACCCAA",
+"TAATGC",
+"ACTGCC",
+"ATATGC",
+"TCAGTT",
+"ACAAGT"
+]
+}
+=> Status: 200
+
+POST localhost:8080/api/v1/mutant/ +
+{
+"dna": 	[
+"ACCCTATG",
+"TAATGCTG",
+"ACAGCCTG",
+"ATAGGCGG",
+"TTCGTTCG",
+"ACAAGACG",
+"TCAGTTAG",
+"ACAAGTAG"
+]
+}
+=> Status: 200
+

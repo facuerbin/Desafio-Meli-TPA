@@ -34,7 +34,6 @@ public class Mutant implements Serializable {
 
 
     public static boolean isMutant(String[] dna) {
-        long startTime = System.currentTimeMillis();
         if (!isDNA(dna)) {
             System.out.println("El adn no es válido");
             return false;
@@ -55,18 +54,16 @@ public class Mutant implements Serializable {
                 if (i > 0 && row[i] == row[i - 1]) {
                     repeatedLetters++;
                 }
+                i++;
 
-                for (int j = i + 1; j < row.length - 1; j++) {
-                    if (row[j] == row[j + 1]) {
-                        repeatedLetters++;
-                    } else {
-                        break;
-                    }
+                while (i < row.length - 1 && row[i] == row[i + 1]) {
+                    repeatedLetters++;
+                    i++;
                 }
 
-                i += repeatedLetters;
                 if (repeatedLetters >= cantidadLetrasMutante) {
-                    mutantDNAMatch++;
+                    mutantDNAMatch+= repeatedLetters / cantidadLetrasMutante;
+                    System.out.println("Row");
                     if (mutantDNAMatch >= cantidadCoincidencias) {
                         return true;
                     }
@@ -85,18 +82,16 @@ public class Mutant implements Serializable {
                 if (j > 0 && dna[j].charAt(i) == dna[j - 1].charAt(i)) {
                     repeatedLetters++;
                 }
+                j++;
 
-                for (int k = j; k < dna.length - 2; k++) {
-                    if (dna[k].charAt(i) == dna[k + 1].charAt(i)) {
-                        repeatedLetters++;
-                    } else {
-                        break;
-                    }
+                while (j < dna.length - 1 && dna[j].charAt(i) == dna[j + 1].charAt(i)) {
+                    repeatedLetters++;
+                    j++;
                 }
 
-                j += repeatedLetters;
                 if (repeatedLetters >= cantidadLetrasMutante) {
-                    mutantDNAMatch++;
+                    mutantDNAMatch+= repeatedLetters / cantidadLetrasMutante;
+                    System.out.println("Column");
                     if (mutantDNAMatch >= cantidadCoincidencias) {
                         return true;
                     }
@@ -104,28 +99,64 @@ public class Mutant implements Serializable {
             }
         }
 
+
         // Diagonal Check
-        for (int x = 0; x < dna.length - 2; x+= 2) {
-            // diagonal central
-            if ( dna[x].charAt(x) != dna[x+1].charAt(x+1)) {
-                continue;
-            }
+        for (int j = dna.length - cantidadLetrasMutante; j >= -dna.length + cantidadLetrasMutante; j--) {
+            // Reviso la diagonal \
+            for (int i = 0; i < dna.length && j + i < dna.length - 1; i++) {
+                if (j + i < 0) {
+                    continue;
+                }
+                if (i + 1 == dna.length || dna[j + i].charAt(i) != dna[j + i + 1].charAt(i + 1)) {
+                    continue;
+                }
 
-            int repeatedLetters = 2;
-            if (x > 0 && dna[x-1].charAt(x-1) == dna[x].charAt(x) ) {
-                repeatedLetters++;
-            }
-            x++;
-            while (x < dna.length -1 && dna[x].charAt(x) == dna[x+1].charAt(x+1)) {
-                repeatedLetters++;
-                x++;
-            }
+                int repeatedLetters = 2;
+                i++;
+                while ((j + i < dna.length - 1 && i < dna.length - 1) && dna[j + i].charAt(i) == dna[j + i + 1].charAt(i + 1)) {
+                    repeatedLetters++;
+                    i++;
+                }
 
-            if (repeatedLetters >= 4) {
-                mutantDNAMatch++;
+                if (repeatedLetters >= cantidadLetrasMutante) {
+                    mutantDNAMatch+= repeatedLetters / cantidadLetrasMutante;
+                    System.out.println("Diagonal 1");
+                    if (mutantDNAMatch >= cantidadCoincidencias) {
+                        return true;
+                    }
+                }
+            }
+        }
 
-                if (mutantDNAMatch >= 2) {
-                    return true;
+        // Reviso la diagonal /
+        for (int sum = dna.length; sum > cantidadCoincidencias / 2; sum--) {
+            for (int j = sum;j > 0; j--) {
+                if (j >= dna.length) {
+                    continue;
+                }
+
+                int i = sum - j;
+
+                if ( i >= dna.length - 1 || dna[j].charAt(i) != dna[j-1].charAt(i+1)) {
+                    continue;
+                }
+
+                int repeatedLetters = 2;
+                i++;
+                j--;
+
+                while ((j > 0 && i < dna.length - 1) && dna[j].charAt(i) == dna[j-1].charAt(i+1)) {
+                    repeatedLetters++;
+                    i++;
+                    j--;
+                }
+
+                if (repeatedLetters >= cantidadLetrasMutante) {
+                    mutantDNAMatch+= repeatedLetters / cantidadLetrasMutante;
+                    System.out.println("Diagonal 2");
+                    if (mutantDNAMatch >= cantidadCoincidencias) {
+                        return true;
+                    }
                 }
             }
         }
