@@ -191,6 +191,7 @@ public class Mutant implements Serializable {
             System.out.println("Matriz de tamaño " + size + "X" + size + ", debe ser de 4X4 como mínimo");
             return false;
         }
+
         for (String line : dna) {
             char[] row = line.toUpperCase().toCharArray();
             if (row.length != size) {
